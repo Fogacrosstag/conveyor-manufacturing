@@ -1,0 +1,11 @@
+target/
+**/target/
+**/bin/
+**/dist/
+.env
+.idea/
+.vscode/
+*.log
+__pycache__/
+*.pyc
+artifacts/
