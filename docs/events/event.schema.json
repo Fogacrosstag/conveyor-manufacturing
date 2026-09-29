@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/conveyor/event.schema.json",
+  "title": "Manufacturing event envelope v1",
+  "type": "object",
+  "required": [
+    "eventId",
+    "eventType",
+    "eventVersion",
+    "timestamp",
+    "source",
+    "correlationId",
+    "aggregateId",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventType": {
+      "enum": [
+        "EngineeringSpecificationCreated",
+        "EngineeringSpecificationApproved",
+        "BillOfMaterialsCreated",
+        "BillOfMaterialsApproved",
+        "ProductionOrderCreated",
+        "ProductionOrderSubmitted",
+        "ProductionOrderStarted",
+        "ProductionOrderCancelled",
+        "ProductionOrderCompleted",
+        "MaterialReceived",
+        "MaterialReserved",
+        "MaterialReservationFailed",
+        "MaterialReservationReleased",
+        "MaterialConsumed",
+        "ProductionScheduleApproved",
+        "ProductionScheduleChanged",
+        "ManufacturingOperationStarted",
+        "ManufacturingOperationPaused",
+        "ManufacturingOperationResumed",
+        "ManufacturingOperationCompleted",
+        "AllManufacturingOperationsCompleted",
+        "EquipmentStateChanged",
+        "EquipmentEventReceived",
+        "QualityInspectionCreated",
+        "QualityInspectionPassed",
+        "ManufacturingReworkRequired",
+        "FinalQualityApproved"
+      ]
+    },
+    "eventVersion": {
+      "const": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "aggregateId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

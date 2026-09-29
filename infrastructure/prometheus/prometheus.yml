@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 10s
+scrape_configs:
+- job_name: java
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets:
+    - legacy-monolith:8080
+    - engineering-service:8080
+    - production-order-service:8080
+    - material-service:8080
+    - production-planning-service:8080
+    - quality-control-service:8080
+- job_name: go
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - shop-floor-service:8080
+    - manufacturing-audit-service:8080

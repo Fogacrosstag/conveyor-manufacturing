@@ -1,0 +1,223 @@
+{
+  "uid": "conveyor",
+  "title": "Conveyor Manufacturing \u2014 Runtime",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Service health",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "up",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Pending durable events",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "outbox_pending_events",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Messages processed",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "rate(kafka_messages_processed_total[5m])",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Dead-letter messages",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "kafka_messages_failed_total",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Java HTTP latency",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_sum[5m]) / rate(http_server_requests_seconds_count[5m])",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Memory in use",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "jvm_memory_used_bytes",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Production order states",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "production_orders",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Manufacturing operation states",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "manufacturing_operations",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Quality attempt pass fraction",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "targets": [
+        {
+          "expr": "1 - quality_inspection_failed_attempts / clamp_min(quality_inspection_attempts, 1)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Delayed schedules",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "conveyor-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "targets": [
+        {
+          "expr": "production_delayed_schedules",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  }
+}

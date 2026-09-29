@@ -1,0 +1,1559 @@
+openapi: 3.0.3
+info:
+  title: Conveyor Manufacturing API
+  version: 1.0.0
+  description: Implemented business paths. Request examples and domain constraints
+    are in API.md and seed.py.
+paths:
+  /products:
+    get:
+      summary: List products
+      tags:
+      - products
+      servers:
+      - url: http://localhost:8080
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Create immutable catalog product
+      tags:
+      - products
+      servers:
+      - url: http://localhost:8080
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /products/{id}:
+    get:
+      summary: Read product
+      tags:
+      - products
+      servers:
+      - url: http://localhost:8080
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /engineering/specifications:
+    get:
+      summary: List specifications
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Create revision with five checks
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /engineering/specifications/{id}:
+    get:
+      summary: Read specification
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /engineering/specifications/{id}/approve:
+    post:
+      summary: Approve draft
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /engineering/boms:
+    get:
+      summary: List BOMs
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Create BOM from approved specification
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /engineering/boms/{id}:
+    get:
+      summary: Read BOM
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /engineering/boms/{id}/approve:
+    post:
+      summary: Approve BOM
+      tags:
+      - engineering
+      servers:
+      - url: http://localhost:8081
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /materials:
+    get:
+      summary: List materials
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Create material
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /materials/{id}:
+    get:
+      summary: Read inventory document
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /materials/{id}/inventory:
+    get:
+      summary: Read same inventory document
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /materials/receive:
+    post:
+      summary: Receive positive quantity
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /materials/low-stock:
+    get:
+      summary: Materials below threshold
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+  /materials/reservations/{id}:
+    get:
+      summary: Read order reservation
+      tags:
+      - material
+      servers:
+      - url: http://localhost:8083
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /production-orders:
+    get:
+      summary: List orders
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Create one-product order
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}:
+    get:
+      summary: Read order and transition history
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /planning/work-centers:
+    get:
+      summary: List work centers
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+    post:
+      summary: Configure route work center
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /planning/work-centers/{id}:
+    get:
+      summary: Read work center
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /planning/schedules:
+    get:
+      summary: List schedules
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+  /planning/schedules/{id}:
+    get:
+      summary: Read order schedule
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /planning/dispatch:
+    post:
+      summary: Dispatch pending reservations by priority
+      tags:
+      - production-planning
+      servers:
+      - url: http://localhost:8084
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /shop-floor/operations:
+    get:
+      summary: List operations
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+  /shop-floor/operations/{id}:
+    get:
+      summary: Read operation
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /shop-floor/events:
+    post:
+      summary: Accept sequenced equipment observation
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /quality/inspections:
+    get:
+      summary: List inspections
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+  /quality/inspections/{id}:
+    get:
+      summary: Read latest inspection attempt
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /quality/production-orders/{id}:
+    get:
+      summary: List order inspections
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /audit/events:
+    get:
+      summary: Paginated event history
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+  /audit/events/{id}:
+    get:
+      summary: Read event
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /production-orders/{id}/submit:
+    post:
+      summary: 'Lifecycle command: submit'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}/start:
+    post:
+      summary: 'Lifecycle command: start'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}/hold:
+    post:
+      summary: 'Lifecycle command: hold'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}/resume:
+    post:
+      summary: 'Lifecycle command: resume'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}/complete:
+    post:
+      summary: 'Lifecycle command: complete'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /production-orders/{id}/cancel:
+    post:
+      summary: 'Lifecycle command: cancel'
+      tags:
+      - production-order
+      servers:
+      - url: http://localhost:8082
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /shop-floor/operations/{id}/start:
+    post:
+      summary: 'Operation command: start'
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /shop-floor/operations/{id}/pause:
+    post:
+      summary: 'Operation command: pause'
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /shop-floor/operations/{id}/resume:
+    post:
+      summary: 'Operation command: resume'
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /shop-floor/operations/{id}/complete:
+    post:
+      summary: 'Operation command: complete'
+      tags:
+      - shop-floor
+      servers:
+      - url: http://localhost:8085
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /quality/inspections/{id}/start:
+    post:
+      summary: 'Inspection command: start'
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /quality/inspections/{id}/checks:
+    post:
+      summary: 'Inspection command: checks'
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /quality/inspections/{id}/complete:
+    post:
+      summary: 'Inspection command: complete'
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /quality/inspections/{id}/retry:
+    post:
+      summary: 'Inspection command: retry'
+      tags:
+      - quality-control
+      servers:
+      - url: http://localhost:8086
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+  /audit/production-orders/{id}:
+    get:
+      summary: Filter history by production-orders
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /audit/materials/{id}:
+    get:
+      summary: Filter history by materials
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /audit/equipment/{id}:
+    get:
+      summary: Filter history by equipment
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /audit/work-centers/{id}:
+    get:
+      summary: Filter history by work-centers
+      tags:
+      - manufacturing-audit
+      servers:
+      - url: http://localhost:8087
+      responses:
+        '200':
+          description: Successful response envelope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '409':
+          description: State or idempotency conflict
+        '422':
+          description: Validation failure
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  schemas:
+    Response:
+      type: object
+      required:
+      - data
+      - timestamp
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
