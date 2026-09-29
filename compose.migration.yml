@@ -1,0 +1,33 @@
+services:
+  legacy-monolith:
+    environment:
+      BASELINE: 'true'
+      CONSUMER_ENABLED: 'true'
+  engineering-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  production-order-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  material-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  production-planning-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  shop-floor-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  quality-control-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest
+  manufacturing-audit-service:
+    environment:
+      INITIAL_OWNER: FROZEN
+      KAFKA_OFFSET_RESET: latest

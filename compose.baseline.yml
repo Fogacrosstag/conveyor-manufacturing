@@ -1,0 +1,27 @@
+name: conveyor-baseline
+services:
+  legacy-monolith:
+    environment:
+      BASELINE: 'true'
+      CONSUMER_ENABLED: 'false'
+  engineering-service:
+    profiles:
+    - modern
+  production-order-service:
+    profiles:
+    - modern
+  material-service:
+    profiles:
+    - modern
+  production-planning-service:
+    profiles:
+    - modern
+  shop-floor-service:
+    profiles:
+    - modern
+  quality-control-service:
+    profiles:
+    - modern
+  manufacturing-audit-service:
+    profiles:
+    - modern
