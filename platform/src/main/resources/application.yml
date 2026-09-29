@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: ${SERVICE_NAME:legacy-monolith}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/legacy}
+    username: ${DB_USER:legacy}
+    password: ${DB_PASSWORD:local-development-only}
+    hikari:
+      maximum-pool-size: 8
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    consumer:
+      group-id: ${SERVICE_NAME:legacy-monolith}
+      auto-offset-reset: ${KAFKA_OFFSET_RESET:earliest}
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        max.poll.interval.ms: 300000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 1
+    listener:
+      ack-mode: manual_immediate
+      missing-topics-fatal: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+app:
+  baseline: ${BASELINE:false}
+  initial-owner: ${INITIAL_OWNER:LOCAL}
+  consumer-enabled: ${CONSUMER_ENABLED:true}
+  admin-token: ${ADMIN_TOKEN:local-migration-token-change-me}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://otel:4318/v1/traces}
+logging:
+  structured:
+    format:
+      console: ecs
+server:
+  shutdown: graceful
