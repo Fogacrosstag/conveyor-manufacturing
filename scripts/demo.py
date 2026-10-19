@@ -3,10 +3,9 @@
 """Exercise actual REST APIs, databases, Kafka and equipment failure/recovery."""
 
 import json
-import time
 import uuid
 
-from client import api, poll, expect, stable
+from client import api, poll, expect
 from seed import seed
 
 
@@ -148,27 +147,37 @@ def run():
                 timeout=120
             )
 
+        # Reuse the same idempotency key for repeated requests.
+        completion_key = str(uuid.uuid4())
+
+        completion_body = {
+            'processedQuantity': 5,
+            'rejectedQuantity': 0
+        }
+
         result = api(
             'shop-floor',
             op_path + '/complete',
-            {
-                'processedQuantity': 5,
-                'rejectedQuantity': 0
-            }
+            completion_body,
+            key=completion_key
         )
 
-        assert result['status'] == 'COMPLETED'
+        assert result['status'] == 'COMPLETED', (
+            f'Operation {op["id"]} did not complete: {result!r}'
+        )
 
         again = api(
             'shop-floor',
             op_path + '/complete',
-            {
-                'processedQuantity': 5,
-                'rejectedQuantity': 0
-            }
+            completion_body,
+            key=completion_key
         )
 
-        assert again == result
+        assert again == result, (
+            f'Idempotent completion response differs '
+            f'for operation {op["id"]}: '
+            f'first={result!r}, repeated={again!r}'
+        )
 
     inspections = poll(
         lambda: api(
