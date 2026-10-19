@@ -3,7 +3,7 @@
 
 Backend for production orders, material reservations, manufacturing operations and quality inspections. The repository contains a Java monolith and seven services extracted from it.
 
-Java 21 / Spring Boot · Go · PostgreSQL · Kafka · Redis · Docker Compose
+**Java 21 / Spring Boot · Go · PostgreSQL · Kafka · Redis · Docker Compose**
 
 ## Run
 
@@ -47,6 +47,28 @@ Shop-floor and audit are written in Go. The other applications use Java. Each ap
 The [system overview](docs/architecture/system-overview.md) includes a Mermaid deployment diagram. See [engineering decisions](docs/architecture/engineering-decisions.md) for design trade-offs and [security review](docs/security/SECURITY_REVIEW.md) for local-only credentials and deployment limitations.
 
 ## Workflow
+
+### Manufacturing Process
+
+The following diagram illustrates the main production workflow, including equipment failure handling and the conditions required for order completion.
+
+```mermaid
+flowchart TD
+    A[Production Order] --> B[Approved BOM Snapshot]
+    B --> C[Material Reservation]
+    C --> D[Production Planning]
+    D --> E[Shop Floor Operations]
+    E --> F{Equipment Available?}
+    F -->|No| G[Pause Affected Operations]
+    G --> H[Equipment Recovery]
+    H --> I[Explicit Resume]
+    I --> E
+    F -->|Yes| J[Quality Inspections]
+    J --> K{Final Quality Approved?}
+    K -->|No| L[Retain Failed Inspection Attempt]
+    K -->|Yes| M{Operations Finished and Materials Consumed?}
+    M -->|Yes| N[Order Completion]
+```
 
 An order keeps a snapshot of its approved BOM. Submission reserves the required materials; planning dispatch assigns seven operations to capacity lanes. Operations require start authorization, completed predecessors and available equipment.
 
