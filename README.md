@@ -1,6 +1,9 @@
 
 # Conveyor Manufacturing
 
+[![Build and verify](https://github.com/Fogacrosstag/conveyor-manufacturing/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Fogacrosstag/conveyor-manufacturing/actions/workflows/ci.yml)
+
+
 Backend for production orders, material reservations, manufacturing operations and quality inspections. The repository contains a Java monolith and seven services extracted from it.
 
 **Java 21 / Spring Boot · Go · PostgreSQL · Kafka · Redis · Docker Compose**
