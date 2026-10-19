@@ -73,6 +73,26 @@ Shop-floor and audit are written in Go. The other applications use Java. Each ap
 
 ## Architecture
 
+### Quick Architecture Summary
+
+Conveyor Manufacturing demonstrates incremental modernization of an existing manufacturing backend using a hybrid monolith-and-microservices architecture.
+
+**System Design**
+
+- **Legacy Monolith:** Preserves existing API compatibility while manufacturing capabilities are progressively extracted into independent services.
+- **Manufacturing Services:** Seven extracted services manage engineering, production orders, materials, production planning, shop-floor operations, quality control and manufacturing audit.
+- **Service Communication:** Apache Kafka enables asynchronous communication between components using domain events.
+- **Data Ownership:** Each application maintains its own PostgreSQL database and database role, establishing clear service boundaries.
+- **Event Reliability:** Transactional outbox and inbox processing support at-least-once delivery and prevent duplicate event IDs from applying the same mutation twice.
+- **Operational Visibility:** Prometheus and Grafana provide application metrics and monitoring.
+- **Deployment:** Docker Compose orchestrates the local application and infrastructure stack.
+
+**Modernization Approach**
+
+The project follows an incremental migration strategy rather than replacing the existing application in a single deployment. Business capabilities can transition from local monolith ownership to independent services while retaining legacy API compatibility.
+
+The implementation includes ownership states, controlled data migration, reconciliation procedures and rollback documentation.
+
 The [system overview](docs/architecture/system-overview.md) includes a Mermaid deployment diagram. See [engineering decisions](docs/architecture/engineering-decisions.md) for design trade-offs and [security review](docs/security/SECURITY_REVIEW.md) for local-only credentials and deployment limitations.
 
 ### Architecture Overview
