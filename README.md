@@ -19,6 +19,21 @@ Backend for production orders, material reservations, manufacturing operations a
 - **Automated Verification** — GitHub Actions validates Java and Go components, integration scenarios, legacy API compatibility and migration workflows.
 - **Observability** — Prometheus metrics, Grafana dashboards and application health endpoints.
 
+## Technology Stack
+
+| Category | Technology | Role |
+|---|---|---|
+| Backend | Java 21, Spring Boot | Manufacturing services, business logic and legacy application |
+| Backend | Go | Shop-floor operations and manufacturing audit |
+| Database | PostgreSQL | Persistent storage with database ownership per application |
+| Messaging | Apache Kafka | Asynchronous event-driven communication |
+| Reliability | Transactional Outbox & Inbox | Reliable event publishing and duplicate processing protection |
+| Infrastructure | Docker, Docker Compose | Containerized local development and integration environments |
+| Build & Testing | Maven, Go Toolchain, Python | Builds, automated tests and end-to-end verification |
+| CI/CD | GitHub Actions | Automated build, testing and integration verification |
+| Monitoring | Prometheus, Grafana | Metrics collection and visualization |
+| Caching Infrastructure | Redis | Included in the local infrastructure stack |
+
 ## Run
 
 Requires Docker Compose v2 and Python 3.10+. The first build downloads images and dependencies.
