@@ -1,11 +1,54 @@
+
+# Java and Maven
 target/
 **/target/
+*.class
+
+# Go
 **/bin/
 **/dist/
+*.test
+*.out
+coverage.out
+coverage.html
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Environment variables and local secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# IDE and editor settings
 .idea/
 .vscode/
+*.iml
+*.swp
+*.swo
+
+# Logs and runtime files
 *.log
-__pycache__/
-*.pyc
+logs/
+*.pid
+*.pid.lock
+
+# Test and build artifacts
 artifacts/
+coverage/
+htmlcov/
+.cache/
+
+# Operating system files
+.DS_Store
+Thumbs.db

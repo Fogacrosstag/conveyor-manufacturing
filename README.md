@@ -1,3 +1,4 @@
+
 # Conveyor Manufacturing
 
 Backend for production orders, material reservations, manufacturing operations and quality inspections. The repository contains a Java monolith and seven services extracted from it.
@@ -41,6 +42,10 @@ Both modes use the same host ports and separate named volumes. On PowerShell, se
 
 Shop-floor and audit are written in Go. The other applications use Java. Each application owns a separate PostgreSQL database and role. Host ports bind to loopback.
 
+## Architecture
+
+The [system overview](docs/architecture/system-overview.md) includes a Mermaid deployment diagram. See [engineering decisions](docs/architecture/engineering-decisions.md) for design trade-offs and [security review](docs/security/SECURITY_REVIEW.md) for local-only credentials and deployment limitations.
+
 ## Workflow
 
 An order keeps a snapshot of its approved BOM. Submission reserves the required materials; planning dispatch assigns seven operations to capacity lanes. Operations require start authorization, completed predecessors and available equipment.
@@ -70,7 +75,7 @@ python3 tests/broker_recovery.py
 
 The Java tests use PostgreSQL Testcontainers. API scenarios cover shortages, concurrent reservations, inspection failures and duplicate messages. The migration test compares records before and after forward/reverse transfer. Commands and prerequisites are listed in the [test matrix](docs/testing/TEST_MATRIX.md).
 
-Recorded build and test results are in the [test matrix](docs/testing/TEST_MATRIX.md).
+Historical local results and the later successful GitHub Actions verification are documented separately in the [test matrix](docs/testing/TEST_MATRIX.md).
 
 ## Development
 
