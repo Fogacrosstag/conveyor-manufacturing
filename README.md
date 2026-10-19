@@ -46,6 +46,77 @@ Shop-floor and audit are written in Go. The other applications use Java. Each ap
 
 The [system overview](docs/architecture/system-overview.md) includes a Mermaid deployment diagram. See [engineering decisions](docs/architecture/engineering-decisions.md) for design trade-offs and [security review](docs/security/SECURITY_REVIEW.md) for local-only credentials and deployment limitations.
 
+### Architecture Overview
+
+The system supports incremental modernization of an existing manufacturing application. The legacy monolith retains compatibility with existing API consumers while extracted services take ownership of individual manufacturing capabilities.
+
+The diagram below presents the logical service boundaries and shared infrastructure.
+
+```mermaid
+flowchart TB
+    Client["API Clients and Demo Scripts"]
+
+    subgraph Applications["Application Layer"]
+        Legacy["Legacy Monolith<br/>Java / Spring Boot<br/>Port 8080"]
+
+        subgraph Services["Extracted Manufacturing Services"]
+            Engineering["Engineering<br/>Java · 8081"]
+            Orders["Production Orders<br/>Java · 8082"]
+            Materials["Materials<br/>Java · 8083"]
+            Planning["Production Planning<br/>Java · 8084"]
+            ShopFloor["Shop Floor<br/>Go · 8085"]
+            Quality["Quality Control<br/>Java · 8086"]
+            Audit["Manufacturing Audit<br/>Go · 8087"]
+        end
+    end
+
+    subgraph Infrastructure["Infrastructure Layer"]
+        Kafka["Apache Kafka<br/>Event Messaging"]
+        PostgreSQL[("PostgreSQL<br/>Separate Service Databases")]
+        Redis[("Redis")]
+    end
+
+    Client --> Legacy
+    Client --> Engineering
+    Client --> Orders
+    Client --> Materials
+    Client --> Planning
+    Client --> ShopFloor
+    Client --> Quality
+    Client --> Audit
+
+    Legacy -.->|"Legacy API Routing"| Engineering
+    Legacy -.->|"Legacy API Routing"| Orders
+    Legacy -.->|"Legacy API Routing"| Materials
+    Legacy -.->|"Legacy API Routing"| Planning
+    Legacy -.->|"Legacy API Routing"| ShopFloor
+    Legacy -.->|"Legacy API Routing"| Quality
+    Legacy -.->|"Legacy API Routing"| Audit
+
+    Legacy --- PostgreSQL
+    Engineering --- PostgreSQL
+    Orders --- PostgreSQL
+    Materials --- PostgreSQL
+    Planning --- PostgreSQL
+    ShopFloor --- PostgreSQL
+    Quality --- PostgreSQL
+    Audit --- PostgreSQL
+
+    Engineering <--> Kafka
+    Orders <--> Kafka
+    Materials <--> Kafka
+    Planning <--> Kafka
+    ShopFloor <--> Kafka
+    Quality <--> Kafka
+    Audit <--> Kafka
+
+    Redis -.- Applications
+```
+
+Each extracted service has a defined business responsibility and its own PostgreSQL database and role. Kafka supports asynchronous communication through transactional outbox and inbox processing.
+
+The diagram is a conceptual architecture overview rather than an exact network topology or a complete map of event subscriptions. Redis is shown as shared infrastructure without assigning specific cache responsibilities.
+
 ## Workflow
 
 ### Manufacturing Process
