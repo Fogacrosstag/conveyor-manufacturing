@@ -8,6 +8,17 @@ Backend for production orders, material reservations, manufacturing operations a
 
 **Java 21 / Spring Boot · Go · PostgreSQL · Kafka · Redis · Docker Compose**
 
+## Project Highlights
+
+- **Incremental Legacy Modernization** — A Java monolith coexists with seven extracted services, preserving legacy API compatibility during migration.
+- **Polyglot Backend Architecture** — Java 21 and Spring Boot power core manufacturing capabilities, while Go handles shop-floor operations and manufacturing audit.
+- **Event-Driven Communication** — Kafka messaging with transactional outbox and inbox processing supports reliable, at-least-once event delivery.
+- **Database Ownership** — Each application has a dedicated PostgreSQL database and role, maintaining clear service boundaries.
+- **Manufacturing Workflow Automation** — Production orders, BOM snapshots, material reservations, capacity planning, equipment recovery and quality inspections.
+- **Failure Handling and Idempotency** — Duplicate event protection, equipment failure and recovery scenarios, and explicit operation resume.
+- **Automated Verification** — GitHub Actions validates Java and Go components, integration scenarios, legacy API compatibility and migration workflows.
+- **Observability** — Prometheus metrics, Grafana dashboards and application health endpoints.
+
 ## Run
 
 Requires Docker Compose v2 and Python 3.10+. The first build downloads images and dependencies.
