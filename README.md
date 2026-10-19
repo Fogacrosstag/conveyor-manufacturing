@@ -166,6 +166,54 @@ Each extracted service has a defined business responsibility and its own Postgre
 
 The diagram is a conceptual architecture overview rather than an exact network topology or a complete map of event subscriptions. Redis is shown as shared infrastructure without assigning specific cache responsibilities.
 
+## Demo Scenarios
+
+The project includes an automated end-to-end demonstration that exercises the manufacturing workflow through REST APIs, PostgreSQL and Kafka.
+
+The demonstration is implemented in [`scripts/demo.py`](scripts/demo.py).
+
+### Manufacturing Workflow Verification
+
+| Scenario | Demonstrated Behavior |
+|---|---|
+| Production Order Creation | Creates a manufacturing order using an approved bill of materials revision |
+| Material Reservation | Reserves the materials required for production |
+| Production Planning | Dispatches seven manufacturing operations to capacity lanes |
+| Operation Authorization | Verifies that operations cannot start before the required authorization and predecessor conditions are satisfied |
+| Equipment Failure | Simulates an equipment failure and verifies that affected operations are paused |
+| Equipment Recovery | Processes a recovery event and explicitly resumes paused operations |
+| Operation Completion | Completes manufacturing operations and checks repeated completion requests |
+| Quality Control | Executes mandatory quality inspections and records inspection results |
+| Inspection Failure and Retry | Simulates a failed inspection, retains the failure and verifies successful reinspection |
+| Production Order Completion | Verifies that operations, material consumption and quality approval satisfy completion requirements |
+| Legacy API Compatibility | Compares the legacy API response with the current production order representation |
+| Manufacturing Audit | Verifies that completion events appear in the audit history without duplicate event IDs |
+
+### Running the Demonstration
+
+Start the application stack using Docker Compose, then execute:
+
+```bash
+python3 scripts/demo.py
+```
+
+The demonstration creates a new production order and exercises the manufacturing workflow, including failure and recovery scenarios.
+
+### Verification Scope
+
+The demonstration checks:
+
+- Manufacturing order lifecycle and state transitions.
+- Material reservation and consumption.
+- Production scheduling and operation dependencies.
+- Equipment failure, recovery and explicit operation resume.
+- Quality inspection failure and retry.
+- Idempotent operation completion requests.
+- Legacy API compatibility.
+- Manufacturing audit event uniqueness.
+
+The demonstration is an automated integration scenario rather than an interactive user interface. It requires the application stack and supporting infrastructure to be running.
+
 ## Workflow
 
 ### Manufacturing Process
